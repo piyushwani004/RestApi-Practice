@@ -2,6 +2,7 @@ package com.example.demo.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -34,27 +35,44 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public Employee getEmployee(long employeeId) {
-		// TODO Auto-generated method stub
-		return null;
+		Employee e = null;
+
+		for (Employee employee : list) {
+			if (employee.getId() == employeeId) {
+				e = employee;
+				break;
+			}
+		}
+
+		return e;
 	}
 
 	@Override
 	public Employee addEmployee(Employee employee) {
-		// TODO Auto-generated method stub
-		return null;
+		list.add(employee);
+		return employee;
 	}
 
 	@Override
 	public Employee updateEmployee(Employee employee) {
-		// TODO Auto-generated method stub
-		return null;
+
+		list.forEach(e -> {
+			if (e.getId() == employee.getId()) {
+
+				e.setName(employee.getName());
+				e.setDept(employee.getDept());
+				e.setSalary(employee.getSalary());
+
+			}
+		});
+
+		return employee;
 	}
 
 	@Override
 	public void deleteEmployee(long parseLong) {
-		// TODO Auto-generated method stub
-		
+		list = this.list.stream().filter(e -> e.getId() != parseLong).collect(Collectors.toList());
+
 	}
-	
 
 }

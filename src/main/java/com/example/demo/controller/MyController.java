@@ -33,6 +33,8 @@ public class MyController {
 		return "This is Home Page";
 	}
 
+	// *************** course Api *********************************//
+
 	// get the All courses
 	@GetMapping("/courses")
 	public List<Courses> getCourses() {
@@ -57,7 +59,6 @@ public class MyController {
 	@DeleteMapping("/courses/{courseId}")
 	public ResponseEntity<HttpStatus> deleteCourse(@PathVariable String courseId) {
 
-
 		try {
 
 			this.courseService.deleteCourse(Long.parseLong(courseId));
@@ -69,10 +70,40 @@ public class MyController {
 
 	}
 
+	// *************** Employee Api *********************************//
+
 	@GetMapping("/employees")
-	public List<Employee> getEmployes(){
+	public List<Employee> getEmployes() {
 		return this.employeService.getEmployes();
 	}
-	
-	
+
+	@GetMapping("/employee/{employeeId}")
+	public Employee addEmployee(@PathVariable String employeeId) {
+		return this.employeService.getEmployee(Long.parseLong(employeeId));
+	}
+
+	@PostMapping("/employee")
+	public Employee addEmployee(@RequestBody Employee employeeId) {
+		return this.employeService.addEmployee(employeeId);
+	}
+
+	@PutMapping("/employee/{employeeId}")
+	public Employee updateEmployee(@RequestBody Employee employee) {
+		return this.employeService.updateEmployee(employee);
+	}
+
+	@DeleteMapping("/employee/{employeeId}")
+	public ResponseEntity<HttpStatus> deleteEmployee(@PathVariable String employeeId) {
+
+		try {
+
+			this.employeService.deleteEmployee(Long.parseLong(employeeId));
+			return new ResponseEntity<>(HttpStatus.OK);
+
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
+
 }
